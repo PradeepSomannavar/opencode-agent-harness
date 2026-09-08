@@ -1,0 +1,84 @@
+{
+  "name": "opencode-agent-harness",
+  "version": "1.0.0",
+  "description": "A focused AI-engineering harness for OpenCode: specialized agents, skills, commands, evaluation, security, RAG, observability, and context-efficient workflows.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./plugins": {
+      "types": "./dist/plugins/index.d.ts",
+      "import": "./dist/plugins/index.js"
+    },
+    "./tools": {
+      "types": "./dist/tools/index.d.ts",
+      "import": "./dist/tools/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "agents",
+    "skills",
+    "commands",
+    "tools",
+    "plugins",
+    "install",
+    "docs",
+    "examples",
+    "opencode.json",
+    "AGENTS.md",
+    "INSTRUCTIONS.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "verify": "node tests/verify-package.mjs",
+    "prepublishOnly": "npm run verify && npm run build"
+  },
+  "keywords": [
+    "opencode",
+    "opencode-ai",
+    "agent-harness",
+    "ai-engineering",
+    "ai-agents",
+    "coding-agents",
+    "agent-evaluation",
+    "llm-evaluation",
+    "rag",
+    "rag-engineering",
+    "ai-security",
+    "mcp",
+    "prompt-engineering",
+    "llm-observability",
+    "context-engineering"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PradeepSomannavar/opencode-agent-harness.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PradeepSomannavar/opencode-agent-harness/issues"
+  },
+  "homepage": "https://github.com/PradeepSomannavar/opencode-agent-harness",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.4.3",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

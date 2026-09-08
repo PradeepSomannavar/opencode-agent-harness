@@ -1,0 +1,124 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "build",
+  "instructions": [
+    "AGENTS.md",
+    "INSTRUCTIONS.md"
+  ],
+  "plugin": [
+    "./plugins"
+  ],
+  "skills": {
+    "paths": [
+      "./skills"
+    ]
+  },
+  "agent": {
+    "build": {
+      "description": "Primary coding agent for development work",
+      "mode": "primary",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "read": true,
+        "changed-files": true
+      }
+    },
+    "ai-architect": {
+      "description": "AI systems architect specializing in LLM-based systems, RAG pipelines, agentic AI, and GenAI application design. Use for AI feature architecture, model selection, system design, and failure mode analysis.",
+      "mode": "subagent",
+      "prompt": "{file:agents/ai-architect.txt}",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      }
+    },
+    "rag-pipeline-reviewer": {
+      "description": "Reviews RAG (Retrieval-Augmented Generation) pipelines for retrieval quality, chunking strategy, embedding choices, and evaluation coverage. Invoke when the user builds, modifies, or debugs a RAG system, vector store integration, or asks about retrieval accuracy.",
+      "mode": "subagent",
+      "prompt": "{file:agents/rag-pipeline-reviewer.txt}",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      }
+    },
+    "mle-reviewer": {
+      "description": "Production machine-learning engineering reviewer for data contracts, feature pipelines, training reproducibility, offline/online evaluation, model serving, monitoring, and rollback. Use when ML, MLOps, model training, inference, feature store, or evaluation code changes.",
+      "mode": "subagent",
+      "prompt": "{file:agents/mle-reviewer.txt}",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      }
+    },
+    "agent-evaluator": {
+      "description": "Evaluates agent output against a 5-axis quality rubric (accuracy, completeness, clarity, actionability, conciseness). Use after a non-trivial task when the user wants a quality assessment. Produces a structured scorecard with evidence and suggested improvements.",
+      "mode": "subagent",
+      "prompt": "{file:agents/agent-evaluator.txt}",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      }
+    },
+    "ai-security-reviewer": {
+      "description": "AI security specialist for prompt injection, tool abuse, MCP security, and agent privilege escalation. Use when reviewing AI features for security vulnerabilities.",
+      "mode": "subagent",
+      "prompt": "{file:agents/ai-security-reviewer.txt}",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      }
+    },
+    "code-architect": {
+      "description": "Designs feature architectures by analyzing existing codebase patterns and conventions, then providing implementation blueprints with concrete files, interfaces, data flow, and build order.",
+      "mode": "subagent",
+      "prompt": "{file:agents/code-architect.txt}",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      }
+    }
+  },
+  "command": {
+    "ai-review": {
+      "description": "Review AI system architecture, RAG pipeline, or LLM feature design",
+      "template": "{file:commands/ai-review.md}\n\n$ARGUMENTS",
+      "agent": "ai-architect",
+      "subtask": true
+    },
+    "rag-review": {
+      "description": "Review and optimize RAG pipeline (ingestion, chunking, retrieval, generation)",
+      "template": "{file:commands/rag-review.md}\n\n$ARGUMENTS",
+      "agent": "rag-pipeline-reviewer",
+      "subtask": true
+    },
+    "eval-run": {
+      "description": "Run LLM or agent evaluation against evaluation dataset",
+      "template": "{file:commands/eval-run.md}\n\n$ARGUMENTS",
+      "agent": "agent-evaluator",
+      "subtask": true
+    },
+    "ai-security": {
+      "description": "Run AI security review (prompt injection, tool abuse, MCP security)",
+      "template": "{file:commands/ai-security.md}\n\n$ARGUMENTS",
+      "agent": "ai-security-reviewer",
+      "subtask": true
+    }
+  },
+  "permission": {
+    "mcp_*": "ask"
+  }
+}
